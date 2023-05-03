@@ -46,32 +46,10 @@ class ServidorCentral():
         # was not present
         return -1
 
-    def receberDados(self):
-        """Recebe e gerencia as mensagens dos topicos para o qual o setor foi inscrito
-
-        Returns:
-            msg: mensagem de um determinado topico para o qual o setor se inscreveu
-        """
-        while True:
-            def on_message(client, userdata, msg):
-                mensagem = msg.payload
-                if mensagem:
-                    mensagem = json.loads(mensagem)
-                    if 'lixeira' in msg.topic:
-                        Thread(target=self.gerenciarLixeiras, args=(mensagem, )).start()
-                    else:
-                        print(mensagem)
-                return mensagem
-            
-            self.server.on_message = on_message
-            self.server.loop_start()
-
     def receive_message_from_station(self, client: mqtt_client):
         def on_message(client, userdata, msg):
-            # print(f"recebi mensagem {msg.payload.decode()} do topicaao {msg.topic}")
-            print(f"recebi mensagem, payload abaixo")
             payload = msg.payload.decode() 
-            # print(payload)
+            
             if payload:
                 station_data = json.loads(payload)
                 print(station_data["station_id"])   #str
@@ -79,8 +57,6 @@ class ServidorCentral():
                 if self.stations_ids.count(station_data["station_id"]) == 0:
                     self.stations.append(station_data)
                     self.stations_ids.append(station_data["station_id"])
-                    # self.stations_ids.append(station_data["station_id"])
-                    # self.stations_queues.append(station_data["queue_size"])
                 else:
                     index = self.stations_ids.index(station_data["station_id"])
                     upgradeable_object = self.stations[index]
@@ -88,6 +64,7 @@ class ServidorCentral():
                     print(f"novo valor = {upgradeable_object}")
             print(self.stations)
             return None
+        
         client.subscribe(self.topic)
         client.on_message = on_message
         
@@ -115,3 +92,27 @@ if __name__ == "__main__":
     # server.receive_message_from_station(client = server.connect_mqtt())
     # receive_message_from_station(server.client_mqtt)
     # thread_server = Thread(target = server.receive_message_from_station, args = [server.client_mqtt]).start()
+
+
+"""
+    def receberDados(self):
+        '''
+        Recebe e gerencia as mensagens dos topicos para o qual o setor foi inscrito
+
+        Returns:
+            msg: mensagem de um determinado topico para o qual o setor se inscreveu
+        '''
+        while True:
+            def on_message(client, userdata, msg):
+                mensagem = msg.payload
+                if mensagem:
+                    mensagem = json.loads(mensagem)
+                    if 'lixeira' in msg.topic:
+                        Thread(target=self.gerenciarLixeiras, args=(mensagem, )).start()
+                    else:
+                        print(mensagem)
+                return mensagem
+            
+            self.server.on_message = on_message
+            self.server.loop_start()
+"""    

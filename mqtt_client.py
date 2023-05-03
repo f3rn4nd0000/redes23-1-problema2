@@ -1,5 +1,6 @@
 from paho.mqtt.client import _UserData, Client
 import uuid
+import json
 
 class MqttCliente:
 
