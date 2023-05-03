@@ -1,0 +1,44 @@
+SERVER => APENAS ENVIA DADOS
+VEICULO => RECEBE OS DADOS DO SERVIDOR
+
+TOPICOS:
+"fila/posto" relacionado ao tamanho das filas dos postos
+
+"carro/distancia" quando um carro quer saber a distancia pra determinados postos, nesse caso o carro ira publicar as
+suas coordenadas, os postos (servidor_setorial) irao receber as coordenadas e calcular via putagoras
+
+"veiculo/se_dirigindo" Quando um veiculo sinaliza que esta se dirigindo a algum posto, vai servir para calcular as
+distancias entre os carros e os postos daquele setor
+
+COORDENADAS FIXAS DOS POSTOS:
+
+Considerando um plano cartesiano de coordenadas limitrofes entre (-100,-100) e (100,100) podemos colocar 4 postos
+nos pontos:
+
+P1 = (50, 50)   Primeiro quadrante
+P2 = (-50, 50)  Segundo quadrante
+P3 = (-50, -50) Terceiro quadrante
+P4 = (50, -50)  Quarto quadrante
+
+PRECISO FAZER ALGORITMO PARA RETORNAR TODOS OS VEICULOS PROXIMOS A UM SETOR, UM ALGORITMO SERIA:
+    Receber dados de um carro e verificar se as coordenadas daquele carro se encontram no quadrante daquele setor.
+
+QUADRANTES:
+Q1 = ( 1, 1) até (100,100)
+Q2 = (-1, 1) até (-100,100)
+Q3 = (-1,-1) até (-100, -100)
+Q4 = ( 1,-1) até (100, -100)
+
+ATRIBUICOES DO SERVIDOR PRINCIPAL:
+    - Gerenciar os postos(servidores) setoriais (Como isso será feito???)
+    - Receber os processamentos de todos os postos??? carros???
+    - FATO: Ordenar quais postos tem as menores filas
+
+ATRIBUICOES DOS SERVIDORES SETORIAIS:
+    - Retornar:
+        - Num. de carros na fila
+        - Distancia de cada carro ao posto
+
+ATRIBUICOES DOS CARROS:
+    - Se mover
+    - Requisitar dados aos postos(servidores) quando a bateria ficar baixa

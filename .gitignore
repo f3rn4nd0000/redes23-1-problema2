@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=flask
 
 ### Meus arquivos pessoais ###
-a_fazer.txt
+#a_fazer.txt
 
 
 ### Flask ###
