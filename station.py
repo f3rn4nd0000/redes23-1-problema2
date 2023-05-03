@@ -8,7 +8,7 @@ import random
 import time
 from paho.mqtt import client as mqtt_client
 
-class Station(Publisher):
+class Station():
     
     def __init__(self, topic):
         self.broker = "localhost"
@@ -16,7 +16,6 @@ class Station(Publisher):
         self.topic = topic
         self.client_id = f'python-mqtt-{random.randint(0, 100)}'
         self.client_mqtt = self.connect_mqtt()
-        self.publisher = Publisher(topic=topic)
         self.station_id = f"posto-{uuid.uuid1()}"
         self.tamanho_fila = 0
 
@@ -26,7 +25,6 @@ class Station(Publisher):
                 print("Connected to MQTT Broker!")
             else:
                 print("Failed to connect, return code %d\n", rc)
-
         client = mqtt_client.Client(self.client_id)
         client.on_connect = on_connect
         client.connect(self.broker, self.port)
@@ -34,10 +32,12 @@ class Station(Publisher):
 
     def send_data_to_server(self):
         while True:
+            time.sleep(4)
             try:
+                client = self.connect_mqtt()
                 msg = self.to_json()
                 print(f"Enviando mensagem {msg} para {self.topic}")
-                result = self.client_mqtt.publish(self.topic, msg)
+                result = client.publish(self.topic, msg)
                 if result[0] != 0:
                     raise Exception(f"Mensagem não enviada para o topico {self.topic}")
             except Exception as ex:
