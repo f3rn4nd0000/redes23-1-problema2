@@ -64,14 +64,12 @@ class ServidorCentral():
                     print(f"novo valor = {upgradeable_object}")
             print(self.stations)
             return None
-        
         client.subscribe(self.topic)
         client.on_message = on_message
         
     def subscribe(self, client: mqtt_client):
         def on_message(client, userdata, msg):
             print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-
         client.subscribe(self.topic)
         client.on_message = on_message
 
