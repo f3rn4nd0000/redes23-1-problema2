@@ -14,7 +14,7 @@ TENDENCIA_DESCARREGAMENTO = {
 class Vehicle():
 
     def __init__(self, latitude, longitude) -> None:
-        self.broker          = "localhost"
+        self.broker          = "172.16.103.6"
         self.port            = 1883
         self.topic           = "veiculo"
         self.client_id       = f'python-mqtt-{random.randint(0, 100)}'
@@ -105,7 +105,7 @@ class Vehicle():
                 "longitude": self.longitude,
                 "tendencia_descarregamento": self.discharge_tendency_to_str(),
             }
-        )
+        )   
 
 
 if __name__ == "__main__":

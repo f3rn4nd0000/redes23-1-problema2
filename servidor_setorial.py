@@ -6,8 +6,8 @@ import time
 from threading import Thread
 from paho.mqtt import client as mqtt_client
 
-TOPICOS = "fila/posto"
-# TOPICOS = "fila/posto"
+TOPICOS = ["fila/posto", "menor/fila"]
+# TOPICOS = ["fila/posto","carro/distancia","veiculo/se_dirigindo"]
 TAMANHO_MAX_FILA = 15
 
 SETORES = {
@@ -24,7 +24,7 @@ class ServidorSetorial():
         self.setor           = SETORES[str(random.randint(0,3))]
         self.broker          = "localhost"
         self.port            = 1883
-        self.topics           = topics
+        self.topics          = topics
         self.client_id       = f"python-mqtt-{random.randint(0, 100)}"
         self.client_mqtt     = self.connect_mqtt()
         self.latitude        = latitude
@@ -32,7 +32,8 @@ class ServidorSetorial():
         self.server_id       = uuid.uuid1()
         self.tamanho_fila    = 0
         self.veiculos        = []
-
+        self.quadrant        = 0
+   
     def connect_mqtt(self):
         def on_connect(client, userdata, flags, rc):
             if rc == 0:
@@ -43,6 +44,17 @@ class ServidorSetorial():
         client.on_connect = on_connect
         client.connect(self.broker, self.port)
         return client
+
+    def return_vehicle_quadrant(self, latitude, longitude) -> bool:
+        if latitude > 0 :
+            if longitude > 0:
+                self.quadrant = 1
+            else:
+                self.quadrant = 4
+        elif longitude < 0:
+            self.quadrant =2
+        else:
+            self.quadrant = 3
 
     # Recebe mensagens de um topico especifico
     def receive_messages(self, client):

@@ -8,7 +8,7 @@ from paho.mqtt import client as mqtt_client
 class Station():
     
     def __init__(self, topic):
-        self.broker       = "localhost"
+        self.broker       = "172.16.103.6"
         self.port         = 1883
         self.topic        = topic
         self.client_id    = f'python-mqtt-{random.randint(0, 100)}'

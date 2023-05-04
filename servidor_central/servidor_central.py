@@ -9,7 +9,7 @@ TOPICS = ["fila/posto", "veiculo", "menor/fila"]
 class ServidorCentral():
 
     def __init__(self, topics):
-        self.broker          = "localhost"
+        self.broker          = "172.16.103.6"
         self.port            = 1883
         self.topics           = topics
         self.client_id       = f'python-mqtt-{random.randint(0, 100)}'
